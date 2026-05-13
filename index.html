@@ -315,7 +315,7 @@
 <main class="grid">
 
   <!-- ─── COSTOS ─── -->
-  <a class="card" data-accent="amber" href="https://quiborax-costos.vercel.app" target="_blank" rel="noopener">
+  <a class="card" data-accent="amber" data-dashboard="costos" href="https://quiborax-costos.vercel.app" target="_blank" rel="noopener">
     <div class="card-head">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -338,7 +338,7 @@
   </a>
 
   <!-- ─── COMPRAS ─── -->
-  <a class="card" data-accent="blue" href="https://intel-compras.vercel.app" target="_blank" rel="noopener">
+  <a class="card" data-accent="blue" data-dashboard="compras" href="https://intel-compras.vercel.app" target="_blank" rel="noopener">
     <div class="card-head">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -361,7 +361,7 @@
   </a>
 
   <!-- ─── EERR ─── -->
-  <a class="card" data-accent="purple" href="https://quiborax-eerr.vercel.app" target="_blank" rel="noopener">
+  <a class="card" data-accent="purple" data-dashboard="eerr" href="https://quiborax-eerr.vercel.app" target="_blank" rel="noopener">
     <div class="card-head">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -390,6 +390,10 @@
   <div>v1.0 · BUILD <span id="build">—</span></div>
 </footer>
 
+<!-- Vercel Web Analytics + Speed Insights (free on Hobby tier; safe no-op until enabled in dashboard) -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
 <script>
   // Timestamp dinámico en topbar y build date estático en footer
   (function() {
@@ -400,6 +404,15 @@
     document.getElementById('ts').textContent = ts;
     document.getElementById('build').textContent = '2026-05-13';
   })();
+
+  // Track dashboard opens — feeds into Vercel Analytics custom events.
+  // Lets us see which dashboard the executive team actually uses week to week.
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  document.querySelectorAll('a.card[data-dashboard]').forEach(card => {
+    card.addEventListener('click', () => {
+      window.va('event', { name: 'open_dashboard', dashboard: card.dataset.dashboard });
+    });
+  });
 </script>
 
 </body>
